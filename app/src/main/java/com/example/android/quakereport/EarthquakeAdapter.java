@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
+
+
     public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes) {
 
         super(context, 0, earthquakes);
@@ -31,29 +33,50 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
                     R.layout.earthquake_list_item, parent, false);
         }
 
+        String primaryLocation;
+        String locationOffset;
+
+
+
         //Get the data item associated with the specified position in the data set.
         Earthquake currentEarthquake = getItem(position);
 
 
-        TextView magnitudeView = (TextView) listItemView.findViewById (R.id.magnitude_holder);
+        TextView magnitudeView = (TextView) listItemView.findViewById (R.id.magnitude);
         magnitudeView.setText(currentEarthquake.getMagnitude());
 
-        TextView locationView = (TextView) listItemView.findViewById(R.id.location_holder);
-        locationView.setText(currentEarthquake.getLocation());
+        String originalLocation = currentEarthquake.getLocation();
+
+        if (originalLocation.contains("of")) {
+            String[] parts = originalLocation.split("of");
+            locationOffset = parts [0]+ "of ";
+            primaryLocation = parts[1];
+
+        } else{
+            locationOffset = "Near the ";
+            primaryLocation = originalLocation;
+        }
+
+
+        TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
+        locationOffsetView.setText(locationOffset);
+
+        TextView locationView = (TextView) listItemView.findViewById(R.id.primary_location);
+        locationView.setText(primaryLocation);
 
 
         // Create a new Date object from the time in milliseconds of the earthquake
         Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());
 
         // Find the TextView with view ID date
-        TextView dateView = (TextView) listItemView.findViewById(R.id.date_holder);
+        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
         // Format the date string (i.e. "Mar 3, 1984")
         String formattedDate = formatDate(dateObject);
         // Display the date of the current earthquake in that TextView
         dateView.setText(formattedDate);
 
         // Find the TextView with view ID time
-        TextView timeView = (TextView) listItemView.findViewById(R.id.time_holder);
+        TextView timeView = (TextView) listItemView.findViewById(R.id.time);
         // Format the time string (i.e. "4:30PM")
         String formattedTime = formatTime(dateObject);
         // Display the time of the current earthquake in that TextView
