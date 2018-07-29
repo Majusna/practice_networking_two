@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,9 +43,13 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         //Get the data item associated with the specified position in the data set.
         Earthquake currentEarthquake = getItem(position);
 
+        DecimalFormat formtter = new DecimalFormat("0.0");
+        String output = formtter.format(currentEarthquake.getMagnitude());
+
+
 
         TextView magnitudeView = (TextView) listItemView.findViewById (R.id.magnitude);
-        magnitudeView.setText(currentEarthquake.getMagnitude());
+        magnitudeView.setText(output);
 
         String originalLocation = currentEarthquake.getLocation();
 
